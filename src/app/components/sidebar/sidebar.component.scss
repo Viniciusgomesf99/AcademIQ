@@ -1,0 +1,60 @@
+.sidebar {
+  width: 60px;
+  background-color: #86AAA6;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  transition: 0.5s ease-in-out;
+
+  &:hover {
+    width: 200px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 15px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .sidebar-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        color: #333;
+        width: 100%;
+        transition: background-color 0.5s;
+        padding:6px;
+
+        &:hover {
+          background-color: #B0BBB0;
+          border-radius: 12px;
+        }
+
+        i {
+          font-size: 1.5em;
+          margin-right: 10px;
+        }
+
+        span {
+          font-size: 1em;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  .bottom-items {
+    margin-bottom: 20px;
+  }
+}

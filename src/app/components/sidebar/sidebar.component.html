@@ -1,0 +1,18 @@
+<div class="sidebar" (mouseenter)="toggleSidebar(true)" (mouseleave)="toggleSidebar(false)">
+  <ul class="top-items">
+    <li>
+      <a [routerLink]="'/'" class="sidebar-link">
+        <i class="icon-book"><img src="/courses.png" alt="Meus Cursos" /></i>
+        <span *ngIf="isOpen">Meus Cursos</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="bottom-items">
+    <li>
+      <a [routerLink]="'/configurations'" class="sidebar-link">
+        <i class="icon-settings"><img src="/Settings.png" alt="Configurações" /></i>
+        <span *ngIf="isOpen">Configurações</span>
+      </a>
+    </li>
+  </ul>
+</div>

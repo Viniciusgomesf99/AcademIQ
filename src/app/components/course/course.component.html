@@ -1,0 +1,113 @@
+<div class="course-container">
+  <h2>{{ course?.name }}</h2>
+  <div class="course-content">
+    <!-- Player de vídeo -->
+    <div class="video-player">
+      <iframe 
+        *ngIf="selectedVideo" 
+        [src]="selectedVideo.video_player | safeUrl" 
+        frameborder="0" 
+        allowfullscreen>
+      </iframe>
+      <input
+        type="file"
+        id="thumbnailFile"
+        style="display: none;"
+        (change)="handleFileInput($event)"
+      />
+      <label for="thumbnailFile" class="upload-button">Alterar Thumbnail</label>
+    </div>
+
+    <!-- Estrutura do curso -->
+    <div class="course-structure">
+      <!-- Accordion para tópicos e sub-tópicos -->
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let topic of course?.topics">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <div class="accordeon-topics">
+                <h3>{{ topic.name }}</h3>
+                <span>
+                  ({{ topic.videos.length }} {{ topic.videos.length !== 1 ? 'aulas' : 'aula' }}, {{ formatDuration(topic.totalDuration) }})
+                </span>
+              </div>
+            </mat-panel-title>
+            <!-- Botão para adicionar vídeos ou subpastas -->
+            <button (click)="openAddFolderDialog(topic?.id)" class="add-folder">+ Pasta</button>
+            <button *ngIf="!isUploading" (click)="openFileUploadDialog(topic?.id)" class="upload-video add-video">
+              + Vídeo
+            </button>
+            <div *ngIf="isUploading" class="upload-spinner">
+              <mat-spinner diameter="24"></mat-spinner> Fazendo upload...
+            </div>
+          </mat-expansion-panel-header>
+
+          <!-- Vídeos -->
+          <ul class="videos">
+            <li *ngFor="let video of topic.videos" (click)="playVideo(video)" class="video-item">
+              <div class="video-info">
+                <a [class.active]="video === selectedVideo">{{ video.title }}</a>
+                <span class="video-length">{{ formatDuration(video.length) }}</span>
+              </div>
+              <i class="video-icon material-icons">play_circle</i>
+            </li>
+          </ul>
+
+          <!-- Sub-tópicos -->
+          <mat-accordion *ngIf="topic.subtopics.length > 0">
+            <mat-expansion-panel *ngFor="let subtopic of topic.subtopics">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <div class="accordeon-topics">
+                    <h3>{{ subtopic.name }}</h3>
+                    <span>
+                      ({{ subtopic.videos.length }} {{ subtopic.videos.length !== 1 ? 'aulas' : 'aula' }}, {{ formatDuration(subtopic.totalDuration) }})
+                    </span>
+                  </div>
+                </mat-panel-title>
+                <!-- Botões de ação -->
+                <button (click)="openAddFolderDialog(subtopic?.id)" class="add-folder">+ Pasta</button>
+                <button *ngIf="!isUploading" (click)="openFileUploadDialog(subtopic?.id)" class="upload-video add-video">
+                  + Vídeo
+                </button>
+                <div *ngIf="isUploading" class="upload-spinner">
+                  <mat-spinner diameter="24"></mat-spinner> Fazendo upload...
+                </div>
+              </mat-expansion-panel-header>
+
+              <!-- Vídeos do sub-tópico -->
+              <ul class="videos">
+                <li *ngFor="let video of subtopic.videos" (click)="playVideo(video)" class="video-item">
+                  <div class="video-info">
+                    <a [class.active]="video === selectedVideo">{{ video.title }}</a>
+                    <span class="video-length">{{ formatDuration(video.length) }}</span>
+                  </div>
+                  <i class="video-icon material-icons">play_circle</i>
+                </li>
+              </ul>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+      <!-- Vídeos na raiz -->
+      <ul class="videos-root" *ngIf="course?.videos?.length">
+        <li *ngFor="let video of filteredVideos" (click)="playVideo(video)" class="video-item">
+          <div class="video-info">
+            <a [class.active]="video === selectedVideo">{{ video.title }}</a>
+            <span class="video-length">{{ formatDuration(video.length) }}</span>
+          </div>
+          <i class="video-icon material-icons">play_circle</i>
+        </li>
+      </ul>
+      <!-- Botões para vídeos/pastas na raiz -->
+      <button (click)="openAddFolderDialog(course?.id)" class="add-folder">+ Pasta</button>
+      <button *ngIf="!isUploading" (click)="openFileUploadDialog(course?.id)" class="upload-video add-video">
+        + Vídeo
+      </button>
+      <div *ngIf="isUploading" class="upload-spinner">
+        <mat-spinner diameter="24"></mat-spinner> Fazendo upload...
+      </div>
+    </div>
+  </div>
+</div>
