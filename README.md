@@ -37,7 +37,7 @@ Certifique-se de ter instalado:
 
 1. Clone este repositório:
    ```bash
-   git clone https://github.com/seu-usuario/academiq.git
+   git clone https://github.com/Viniciusgomesf99/academiq.git
    cd academiq
    ```
 
